@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+# start of a ruby script to toggle screen dimming in Ubuntu
+
+dim_status = IO.popen("gsettings get org.gnome.settings-daemon.plugins.power idle-dim-battery").readline
+
+if dim_status == "true\n"
+  puts "set to false"
+  if system "gsettings set org.gnome.settings-daemon.plugins.power idle-dim-battery false"
+    system "notify-send --icon=/usr/share/icons/gnome/24x24/devices/computer.png --urgency=critical 'disabled screen dimming'"
+  end
+else
+  puts "set to true"
+  if system "gsettings set org.gnome.settings-daemon.plugins.power idle-dim-battery true"
+    system "notify-send --icon=/usr/share/icons/gnome/24x24/devices/computer.png --urgency=critical 'enabled screen dimming'"
+  end
+end
